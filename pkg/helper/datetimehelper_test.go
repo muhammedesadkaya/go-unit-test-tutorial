@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
 )
@@ -11,10 +12,6 @@ func Test_CheckAgeAdult(t *testing.T) {
 
 	result := CheckAgeAdult(testTime)
 
-	if result != 29 {
-		t.Errorf("CheckAgeAdult(1993-08-26) FAILED. Excepted %d, got %d", 29, result)
-	} else {
-		t.Logf("CheckAgeAdult(1993-08-26) PASSED. Excepted %d, got %d", 29, result)
-	}
+	assert.Equal(t, result, 29)
 
 }
