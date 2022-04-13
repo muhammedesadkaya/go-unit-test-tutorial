@@ -92,24 +92,6 @@ func Test_TwoTalentsAndThreeYearsOfExperience_SendMailToHRExpected(t *testing.T)
 	assert.Equal(t, result, SendMailToHR)
 }
 
-func Test_TwoTalentsAndFiveYearsOfExperience_SendMailToHRExpected(t *testing.T) {
-
-	resume := model.Resume{
-		Birthday:              time.Date(1993, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
-		IsDoneMilitaryService: true,
-		YearsOfExperience:     5,
-		Talent:                []string{"C#", "MongoDB"},
-	}
-
-	var resumeApplication = cmd.NewResumeApplication(resume)
-
-	result := resumeApplication.CheckResume()
-
-	assert.NotNil(t, result)
-
-	assert.Equal(t, result, SendMailToHR)
-}
-
 func Test_FiveTalentsAndFiveYearsOfExperience_AutoAcceptExpected(t *testing.T) {
 
 	resume := model.Resume{
