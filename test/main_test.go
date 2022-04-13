@@ -27,7 +27,6 @@ func Test_UnderAge_AutoRejectExpected(t *testing.T) {
 func Test_NotDoneMilitaryService_AutoRejectExpected(t *testing.T) {
 
 	resume := model.Resume{
-		Birthday:              time.Date(1993, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
 		IsDoneMilitaryService: false,
 	}
 
@@ -43,9 +42,7 @@ func Test_NotDoneMilitaryService_AutoRejectExpected(t *testing.T) {
 func Test_OneYearExperience_AutoRejectExpected(t *testing.T) {
 
 	resume := model.Resume{
-		Birthday:              time.Date(1993, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
-		IsDoneMilitaryService: false,
-		YearsOfExperience:     1,
+		YearsOfExperience: 1,
 	}
 
 	var resumeApplication = cmd.NewResumeApplication(resume)
@@ -60,9 +57,7 @@ func Test_OneYearExperience_AutoRejectExpected(t *testing.T) {
 func Test_OneTalent_AutoRejectExpected(t *testing.T) {
 
 	resume := model.Resume{
-		Birthday:              time.Date(1993, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
-		IsDoneMilitaryService: false,
-		Talent:                []string{"C#"},
+		Talent: []string{"C#"},
 	}
 
 	var resumeApplication = cmd.NewResumeApplication(resume)
