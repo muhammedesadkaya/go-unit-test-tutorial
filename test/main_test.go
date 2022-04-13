@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func Test_UnderAge_AutoReject(t *testing.T) {
+func Test_UnderAge_AutoRejectExpected(t *testing.T) {
 
 	resume := model.Resume{
 		Birthday: time.Date(2021, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
@@ -24,7 +24,7 @@ func Test_UnderAge_AutoReject(t *testing.T) {
 	assert.Equal(t, result, AutoReject)
 }
 
-func Test_NotDoneMilitaryService_AutoReject(t *testing.T) {
+func Test_NotDoneMilitaryService_AutoRejectExpected(t *testing.T) {
 
 	resume := model.Resume{
 		Birthday:              time.Date(1993, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
@@ -40,7 +40,41 @@ func Test_NotDoneMilitaryService_AutoReject(t *testing.T) {
 	assert.Equal(t, result, AutoReject)
 }
 
-func Test_TwoTalentsAndThreeYearsOfExperience_SendMailToHR(t *testing.T) {
+func Test_OneYearExperience_AutoRejectExpected(t *testing.T) {
+
+	resume := model.Resume{
+		Birthday:              time.Date(1993, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
+		IsDoneMilitaryService: false,
+		YearsOfExperience:     1,
+	}
+
+	var resumeApplication = cmd.NewResumeApplication(resume)
+
+	result := resumeApplication.CheckResume()
+
+	assert.NotNil(t, result)
+
+	assert.Equal(t, result, AutoReject)
+}
+
+func Test_OneTalent_AutoRejectExpected(t *testing.T) {
+
+	resume := model.Resume{
+		Birthday:              time.Date(1993, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
+		IsDoneMilitaryService: false,
+		Talent:                []string{"C#"},
+	}
+
+	var resumeApplication = cmd.NewResumeApplication(resume)
+
+	result := resumeApplication.CheckResume()
+
+	assert.NotNil(t, result)
+
+	assert.Equal(t, result, AutoReject)
+}
+
+func Test_TwoTalentsAndThreeYearsOfExperience_SendMailToHRExpected(t *testing.T) {
 
 	resume := model.Resume{
 		Birthday:              time.Date(1993, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
@@ -58,13 +92,31 @@ func Test_TwoTalentsAndThreeYearsOfExperience_SendMailToHR(t *testing.T) {
 	assert.Equal(t, result, SendMailToHR)
 }
 
-func Test_ThreeTalentsAndFourYearsOfExperience_SendMailToTeamLead(t *testing.T) {
+func Test_TwoTalentsAndFiveYearsOfExperience_SendMailToHRExpected(t *testing.T) {
 
 	resume := model.Resume{
 		Birthday:              time.Date(1993, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
 		IsDoneMilitaryService: true,
-		YearsOfExperience:     3,
-		Talent:                []string{"C#", "Golang", "MongoDB"},
+		YearsOfExperience:     5,
+		Talent:                []string{"C#", "MongoDB"},
+	}
+
+	var resumeApplication = cmd.NewResumeApplication(resume)
+
+	result := resumeApplication.CheckResume()
+
+	assert.NotNil(t, result)
+
+	assert.Equal(t, result, SendMailToHR)
+}
+
+func Test_FiveTalentsAndFiveYearsOfExperience_AutoAcceptExpected(t *testing.T) {
+
+	resume := model.Resume{
+		YearsOfExperience:     5,
+		IsDoneMilitaryService: true,
+		Birthday:              time.Date(1993, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
+		Talent:                []string{"C#", "Golang", "MongoDB", "PostgreSQL", "ReactJS"},
 	}
 
 	var resumeApplication = cmd.NewResumeApplication(resume)
@@ -76,13 +128,13 @@ func Test_ThreeTalentsAndFourYearsOfExperience_SendMailToTeamLead(t *testing.T) 
 	assert.Equal(t, result, SendMailToTeamLead)
 }
 
-func Test_FiveTalentsAndFiveYearsOfExperience_AutoAccept(t *testing.T) {
+func Test_SixTalentsAndSixYearsOfExperience_AutoAcceptExpected(t *testing.T) {
 
 	resume := model.Resume{
-		YearsOfExperience:     5,
+		YearsOfExperience:     6,
 		IsDoneMilitaryService: true,
 		Birthday:              time.Date(1993, time.Month(8), 26, 1, 10, 30, 0, time.UTC),
-		Talent:                []string{"C#", "Golang", "MongoDB", "PostgreSQL", "ReactJS"},
+		Talent:                []string{"C#", "Golang", "MongoDB", "PostgreSQL", "ReactJS", "MSSQL"},
 	}
 
 	var resumeApplication = cmd.NewResumeApplication(resume)

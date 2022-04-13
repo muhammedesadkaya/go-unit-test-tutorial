@@ -19,19 +19,18 @@ func (self *resumeService) CheckResume() string {
 
 	ageYear := helper.CheckAgeAdult(self.resume.Birthday)
 
-	if ageYear < 18 {
+	if ageYear < 18 ||
+		!self.resume.IsDoneMilitaryService ||
+		len(self.resume.Talent) <= 1 ||
+		self.resume.YearsOfExperience <= 1 {
 		return AutoReject
 	}
 
-	if !self.resume.IsDoneMilitaryService {
-		return AutoReject
-	}
-
-	if len(self.resume.Talent) <= 2 && self.resume.YearsOfExperience <= 3 {
+	if len(self.resume.Talent) <= 2 {
 		return SendMailToHR
 	}
 
-	if len(self.resume.Talent) <= 3 && self.resume.YearsOfExperience <= 4 {
+	if (len(self.resume.Talent) >= 3 && len(self.resume.Talent) <= 5) && (self.resume.YearsOfExperience >= 3 && self.resume.YearsOfExperience <= 5) {
 		return SendMailToTeamLead
 	}
 
